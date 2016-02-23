@@ -1,4 +1,4 @@
-
+require_relative 'view_output'
 
 class Controller
 
@@ -20,7 +20,7 @@ class Controller
     #our Responder
     puts "Sending response."
     # response = "<pre>" + "Hello World #{@counter}" + "</pre>"
-    response = "<pre>" + request_lines.join("\n") + "</pre>"
+    response = "<pre>" + msg + "</pre>"
     time = Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 200 ok",

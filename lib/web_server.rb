@@ -1,10 +1,12 @@
 require 'socket'
 require_relative 'controller'
+require_relative 'router'
 
 class WebServer
 
   def initialize
-    @responder = Controller.new
+    @controller = Controller.new
+    @router = Router.new
   end
 
   def loop_server
@@ -12,7 +14,8 @@ class WebServer
     tcp_server = TCPServer.new(9292)
     loop  do
       client = tcp_server.accept
-      @responder.response_output(client)
+      @controller.response_output(client) # default
+      # @router.route(client)
 
     end
   end

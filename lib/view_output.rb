@@ -1,12 +1,16 @@
+require_relative 'controller'
+require_relative 'router'
+
 class ViewOutput
 
 
-  def hello(client)
-    
+  def hello(client, request)
+      response(client, "Hello World #{request}")
   end
 
-  def datetime(client)
 
+  def datetime(client)
+      response(client, Time.now.strftime('%I:%M %p on %A, %B %e, %Y'))
   end
 
   def debug(client)
@@ -18,6 +22,17 @@ class ViewOutput
     exit
   end
 
+  def word_finder(client)
 
+  end
+
+  def force_error(client)
+
+  end
+
+
+  def parser
+    parse the particular method into the controller response
+  end
 
 end

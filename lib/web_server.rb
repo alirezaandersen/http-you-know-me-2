@@ -4,7 +4,7 @@ require_relative 'controller'
 class WebServer
 
   def initialize
-    @responder = Responder.new
+    @responder = Controller.new
   end
 
   def loop_server
@@ -21,3 +21,9 @@ end
 
 server = WebServer.new
 server.loop_server
+
+#
+# lib_folder = File.expand_path(__dir__)
+# $LOAD_PATH << lib_folder
+#
+# google set lib fold path

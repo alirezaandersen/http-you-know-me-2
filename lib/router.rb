@@ -1,5 +1,5 @@
 require_relative 'controller'
-require_relative 'output_path'
+require_relative 'view_output'
 require_relative 'game'
 
 
@@ -14,19 +14,19 @@ class Router
     @total_counter +=1
     case(client)
     when '/'
-      # output_path
+      # view_output
     when '/hello'
       @counter+=1
-      # output_path.hello path and number of times only hello is processed
+      # view_output.hello path and number of times only hello is processed
     when '/datetime'
-      #output_path.datetime Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
+      #view_output.datetime Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
     when '/shutdown'
-      #output_path.close_server request total # of times server is processed
+      #view_output.close_server request total # of times server is processed
       #needs exit code
     when '/^\/word_finder*/'
-      #output_path.word_finder - parses through the dictionary to validate words
+      #view_output.word_finder - parses through the dictionary to validate words
     when '/force_error'
-      #output_path.blow_up - runs a bunch of error codes but doesn't shutdown server
+      #view_output.blow_up - runs a bunch of error codes but doesn't shutdown server
       #ITERATION 5 easy to add but no worries for right now just raises an exception
     when '/start_game'
       #game.start_game TBD ITERATION 5

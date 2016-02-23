@@ -1,0 +1,65 @@
+things we need to do.
+
+Main TDD. NEED TO LEARN ABOUT FARADAY!!!!
+
+SINGLE RESPONSIBILITY - first goal!
+
+Files -
+1) WebServer        - Should only do loop nothing else!
+
+2) Responder        - Should only deal with output,processor, and diagnostic class
+                      currently is good do not add more
+
+3) Processor        - Should only have Process information case statement should
+                      be 1 maybe 2 methods long
+
+4) RESPONSE CODES   - Should be a constant as of now only needs RC
+
+5) diagnostic class - Should be a parser that deals with responder populates
+                      data info requested maybe 2 classes? or Module
+
+6) output_path      - Should be the output for hello, regular output(debug info),
+                      valid date,turn_off(with total request), dictionary validating
+                      words, unkown_path, force error
+
+7) game             - should only be about the game.
+
+
+
+Based on all the iterations Response Codes should have its own CONSTANTS or Modules
+200 OK
+301 Moved Permanently
+401 Unauthorized
+403 Forbidden
+404 Not Found
+500 Internal Server Error
+this can be used throughout Iterations 2-5. but the RC will always be the same thus
+assign it a CONSTANT if nothing else is added to the file.
+
+Iteration 0 - have hello world return with the number of counts
+  easy to implement but changes after iteration 1.
+
+iteration_1 - debug info - returns the results at the bottom
+  each time a option is called.
+  questions - should it return for terminal or server?
+  should interact with constants only?
+
+****Processor Class******
+iteration_2 - seems like a Processor only - NEEDS VERY SPECIFIC PATH
+needs to iterate over certain criteria's possible case statement should only
+process client and requests. should do the following
+
+    1) Hello World
+    2) regular output
+    3) Specific date format - fixed in responder just need to learn how to use it again
+    4) word_search aka word validator
+    5)
+
+iteration_3 - parsing and comparing words. Needs to be involved with iteration_2
+maybe its own file but should response to Processor and Responder? needs to process that it
+validates words http://host:port/path?param=value&param2=value2 need to parse through
+the dictionary on computer. /user/share/dict/words . output should equal
+#{WORD}.upcase is a known word || #{WORD}.upcase is not a known word.
+
+
+iteration_4 - added the game stuff to Processor. Create custom class for game.

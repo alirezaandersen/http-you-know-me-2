@@ -1,6 +1,6 @@
 
 
-class Responder
+class Controller
 
   attr_accessor :counter
 

@@ -1,9 +1,9 @@
-require_relative 'responder'
+require_relative 'controller'
 require_relative 'output_path'
 require_relative 'game'
 
 
-class Processor
+class Router
 
   def initialize
     @hello_counter = 0

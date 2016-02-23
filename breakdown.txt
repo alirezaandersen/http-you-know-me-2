@@ -7,17 +7,17 @@ SINGLE RESPONSIBILITY - first goal!
 Files -
 1) WebServer        - Should only do loop nothing else!
 
-2) Responder        - Should only deal with output,processor, and diagnostic class
+2) Controller        - Should only deal with output,processor, and diagnostic class
                       currently is good do not add more
 
-3) Processor        - Should only have Process information case statement should
+3) Router       - Should only have Process information case statement should
                       be 1 maybe 2 methods long
 
 4) RESPONSE CODES   - Should be a constant as of now only needs RC
 
 5) diagnostic class - Should be a parser that deals with responder populates
                       data info requested maybe 2 classes? or Module
-
+    merge with 6 maybe since????                  
 6) output_path      - Should be the output for hello, regular output(debug info),
                       valid date,turn_off(with total request), dictionary validating
                       words, unkown_path, force error

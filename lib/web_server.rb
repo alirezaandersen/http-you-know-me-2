@@ -1,5 +1,5 @@
 require 'socket'
-require_relative 'responder'
+require_relative 'controller'
 
 class WebServer
 

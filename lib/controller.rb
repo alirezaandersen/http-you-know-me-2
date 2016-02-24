@@ -1,4 +1,5 @@
 require_relative 'view_output'
+require 'pry'
 
 class Controller
 
@@ -8,19 +9,11 @@ class Controller
     @counter = 0
   end
 
-  def response_output(client)
-    puts "Ready for a request"
-    request_lines = []
-    while line = client.gets and !line.chomp.empty?
-      request_lines << line.chomp
-    end
+  def response_output(params)
+    client = params[:client]
+    msg = params[:msg]
 
-    puts "Got this request:"
-    puts request_lines.inspect
-    #our Responder
-    puts "Sending response."
-    # response = "<pre>" + "Hello World #{@counter}" + "</pre>"
-    response = "<pre>" + msg + "</pre>"
+    response = "<pre>" +  msg + "</pre>"
     time = Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 200 ok",
@@ -37,4 +30,4 @@ class Controller
       puts "\nResponse complete, exiting."
 
     end
-  end
+end

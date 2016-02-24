@@ -14,8 +14,9 @@ class WebServer
     tcp_server = TCPServer.new(9292)
     loop  do
       client = tcp_server.accept
-      @controller.response_output(client) # default
-      # @router.route(client)
+      @router.route(client)
+      #@router.route(client,request)
+      #@controller.response_output(client) # default
 
     end
   end

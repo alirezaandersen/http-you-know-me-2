@@ -3,9 +3,15 @@ require_relative 'router'
 
 class ViewOutput
 
+  def initialize
+    @controller = Controller.new
+  end
 
-  def hello(client, request)
-      response(client, "Hello World #{request}")
+
+
+
+  def hello(client, counter)
+      @controller.response_output(client: client, msg: "Hello World #{counter}")
   end
 
 

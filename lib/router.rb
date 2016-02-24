@@ -17,7 +17,7 @@ class Router
   def route(client,request)
     @total_counter +=1
     case request['Path']
-      
+
     when '/'
      @view_output.debug(client, request)
 
@@ -32,9 +32,11 @@ class Router
       @view_output.shutdown(client, @total_counter)
       client.close
 
-    when '/word_finder' #
-      puts "Inside /word_finder"
-      #@view_output.word_finder # - parses through the dictionary to validate words
+    when /^\/word_search*/ #www.http://port/word_search?word=validatingword&word2=validatingword2
+
+      puts "Inside /word_search"
+      # binding.pry
+      @view_output.word_search(client,request)
 
     when '/force_error'
       puts "Inside /force_error"

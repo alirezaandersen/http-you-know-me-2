@@ -5,6 +5,8 @@ require 'pry';
 
 class Router
 
+  # include ResponseCodes
+
 
 
   def initialize
@@ -21,7 +23,7 @@ class Router
     index = 0
     while line = client.gets and !line.chomp.empty?
       request_lines << line.chomp
-       #binding.pry
+      #  binding.pry
       if index == 0
         (request['Verb'],request['Path'],request['Protocol']) = line.chomp.split
       else
@@ -34,27 +36,32 @@ class Router
     @total_counter +=1
     case request['Path']
     when '/'
-      puts "Inside /"
-      #@view_output.debug(client,request)
+    #   puts "Inside /"
+     @view_output.debug(client, request)
 
     when '/hello'
       puts "Inside /hello"
       @hello_counter+=1
       @view_output.hello(client,@hello_counter)
+
     when '/datetime'
       puts "Inside /datetime"
-      #@view_output.datetime # Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
+      @view_output.datetime(client)
+
     when '/shutdown'
       puts "Inside /shutdown"
-      #@view_output.shutdown #close_server request total # of times server is processed
+      @view_output.shutdown(client, @total_counter)
       client.close
+
     when '/word_finder' #
       puts "Inside /word_finder"
       #@view_output.word_finder # - parses through the dictionary to validate words
+
     when '/force_error'
       puts "Inside /force_error"
       view_output.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
       #ITERATION 5 easy to add but no worries for right now just raises an exception
+
     when '/start_game'
       puts "Inside /start_game"
       #game.start_game TBD ITERATION 5

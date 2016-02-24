@@ -1,13 +1,15 @@
 require_relative 'controller'
 require_relative 'router'
+require_relative 'diagnostic'
 
 class ViewOutput
 
+  attr_accessor :dio
+
   def initialize
     @controller = Controller.new
+    @dio = Diagnostic.new
   end
-
-
 
 
   def hello(client, counter)
@@ -16,15 +18,17 @@ class ViewOutput
 
 
   def datetime(client)
-      response(client, Time.now.strftime('%I:%M %p on %A, %B %e, %Y'))
+      @controller.response_output(client: client, msg: Time.now.strftime('%I:%M %p on %A, %B %e, %Y'))
   end
 
-  def debug(client)
+  def debug(client, request)
+    # require 'pry' ; binding.pry
+    @controller.response_output(client: client, msg: "#{request.collect{ |k,v| "#{k}: #{v}" }.join("\n")}")
 
   end
 
-  def shutdown(client)
-    #needs total_counter
+  def shutdown(client, total_counter)
+    @controller.response_output(client: client, msg: "Total Request: #{total_counter}")
     exit
   end
 

@@ -7,6 +7,7 @@ class WebServer
   def initialize
     @controller = Controller.new
     @router = Router.new
+    @dio = Diagnostic.new
   end
 
   def loop_server
@@ -14,9 +15,10 @@ class WebServer
     tcp_server = TCPServer.new(9292)
     loop  do
       client = tcp_server.accept
-      @router.route(client)
-      #@router.route(client,request)
-      #@controller.response_output(client) # default
+      request = @dio.parse_request(client)
+      # require'pry' ; binding.pry
+      @router.route(client,request)
+      # @controller.response_output(client) # default
 
     end
   end

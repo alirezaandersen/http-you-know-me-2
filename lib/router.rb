@@ -1,13 +1,11 @@
 require_relative 'controller'
 require_relative 'view_output'
 # require_relative 'game'
-require 'pry';
+require 'pry'
 
 class Router
 
   # include ResponseCodes
-
-
 
   def initialize
     @hello_counter = 0
@@ -16,40 +14,21 @@ class Router
   end
 
 
-  def route(client)
-
-    request_lines = []
-    request = {}
-    index = 0
-    while line = client.gets and !line.chomp.empty?
-      request_lines << line.chomp
-      #  binding.pry
-      if index == 0
-        (request['Verb'],request['Path'],request['Protocol']) = line.chomp.split
-      else
-        (key,val) = line.chomp.split(': ')
-        request[key.strip] = val.strip
-      end
-      index += 1
-    end
-    # binding.pry
+  def route(client,request)
     @total_counter +=1
     case request['Path']
+      
     when '/'
-    #   puts "Inside /"
      @view_output.debug(client, request)
 
     when '/hello'
-      puts "Inside /hello"
       @hello_counter+=1
       @view_output.hello(client,@hello_counter)
 
     when '/datetime'
-      puts "Inside /datetime"
       @view_output.datetime(client)
 
     when '/shutdown'
-      puts "Inside /shutdown"
       @view_output.shutdown(client, @total_counter)
       client.close
 

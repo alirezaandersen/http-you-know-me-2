@@ -25,9 +25,9 @@ class Controller
       client.puts output
       @counter += 1
 
-      puts ["Wrote this response:", headers, output].join("\n")
+      # puts ["Wrote this response:", headers, output].join("\n")
       client.close
-      puts "\nResponse complete, exiting."
+      # puts "\nResponse complete, exiting."
 
     end
 end

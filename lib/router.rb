@@ -1,6 +1,12 @@
-require_relative 'controller'
+# require_relative 'controller'
 require_relative 'output_view'
-# require_relative 'game'
+require_relative 'date_view'
+require_relative 'debug_view'
+require_relative 'game_view'
+require_relative 'hello_view'
+require_relative 'shutdown_view'
+require_relative 'word_search_view'
+require_relative 'diagnostic'
 require 'pry'
 
 class Router
@@ -10,7 +16,13 @@ class Router
   def initialize
     @hello_counter = 0
     @total_counter = 0
-    @output_view = OutputView.new
+    # @output_view = OutputView.new
+    @date_view = DateView.new
+    @debug_view = DebugView.new
+    @hello_view = HelloView.new
+    @game_view = GameView.new
+    @shutdown_view = ShutdownView.new
+    @word_search_view = WordSearchView.new
   end
 
 
@@ -19,28 +31,25 @@ class Router
     case request['Path']
 
     when '/'
-     @output_view.debug(client, request)
+     @debug_view.debug(client, request)
 
     when '/hello'
       @hello_counter+=1
-      @output_view.hello(client,@hello_counter)
+      @hello_view.hello(client,@hello_counter)
 
     when '/datetime'
-      @output_view.datetime(client)
+      @date_view.datetime(client)
 
     when '/shutdown'
-      @output_view.shutdown(client, @total_counter)
+      @shutdown_view.shutdown(client, @total_counter)
       client.close
 
-    when /^\/word_search*/ #www.http://port/word_search?word=validatingword&word2=validatingword2
-
-      puts "Inside /word_search"
-      # binding.pry
-      @output_view.word_search(client,request)
+    when /^\/word_search*/
+      @word_search_view.word_search(client,request)
 
     when '/force_error'
       puts "Inside /force_error"
-      output_view.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
+      @debug_view.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
       #ITERATION 5 easy to add but no worries for right now just raises an exception
 
     when '/start_game'

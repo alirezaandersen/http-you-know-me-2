@@ -1,11 +1,9 @@
 require 'socket'
-require_relative 'controller'
 require_relative 'router'
 
 class WebServer
 
   def initialize
-    @controller = Controller.new
     @router = Router.new
     @dio = Diagnostic.new
   end
@@ -16,9 +14,7 @@ class WebServer
     loop  do
       client = tcp_server.accept
       request = @dio.parse_request(client)
-      # require'pry' ; binding.pry
       @router.route(client,request)
-      # @controller.response_output(client) # default
 
     end
   end

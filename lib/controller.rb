@@ -3,12 +3,6 @@ require 'pry'
 
 class Controller
 
-  attr_accessor :counter
-
-  def initialize
-    @counter = 0
-  end
-
   def response_output(params)
     client = params[:client]
     msg = params[:msg]
@@ -23,11 +17,9 @@ class Controller
       "content-length: #{output.length}\r\n\r\n"].join("\r\n")
       client.puts headers
       client.puts output
-      @counter += 1
 
       # puts ["Wrote this response:", headers, output].join("\n")
       client.close
       # puts "\nResponse complete, exiting."
-
     end
 end

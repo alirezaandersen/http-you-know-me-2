@@ -1,4 +1,3 @@
-# require_relative 'output_view'
 # require 'pry'
 #
 # class Controller

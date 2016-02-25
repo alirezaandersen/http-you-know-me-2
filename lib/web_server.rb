@@ -15,6 +15,7 @@ class WebServer
       client = tcp_server.accept
       request = @dio.parse_request(client)
       @router.route(client,request)
+      client.close
 
     end
   end

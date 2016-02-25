@@ -19,7 +19,7 @@ module WordSearchController
       client.puts output
 
       # puts ["Wrote this response:", headers, output].join("\n")
-      client.close
+      
       # puts "\nResponse complete, exiting."
     end
 end

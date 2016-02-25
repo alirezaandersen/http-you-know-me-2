@@ -54,7 +54,14 @@ class Router
 
     when '/start_game'
       puts "Inside /start_game"
-      #game.start_game TBD ITERATION 5
+      @game_view.start_game(client)
+
+    when '/game'
+      @game_view.game
+
+    when '/new_game'
+      @game_view.new_game
+
     else
       puts "Inside Else: %s" % [request['Path']]
       # puts "Error message unkown path - USE CONSTANTS"

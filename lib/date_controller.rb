@@ -1,7 +1,8 @@
 require_relative 'date_view'
+# require_relative 'controller'
 require 'pry'
 
-module DateController
+module DateController #< Controller
 
   def response_output(params)
     client = params[:client]
@@ -19,7 +20,7 @@ module DateController
       client.puts output
 
       # puts ["Wrote this response:", headers, output].join("\n")
-      client.close
+
       # puts "\nResponse complete, exiting."
     end
 end

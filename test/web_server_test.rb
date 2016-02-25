@@ -10,6 +10,19 @@ def test_returns_200
   assert response.success?
 end
 
+def test_returns_301
+  response = Faraday.get ''
+
+  assert response.success?
+end
+
+def test_returns_302
+  response = Faraday.get ''
+
+  assert response.success?
+end 
+
+
 
 
 end

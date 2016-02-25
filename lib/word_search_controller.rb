@@ -13,7 +13,7 @@ class WordSearchController < Controller
       words = URI.decode_www_form(get_params).flat_map{|k,v| v}
       #binding.pry
       d = valid_words?(words)
-      response_output(client: client, msg: d )
+      response_output(client: client, msg: d + "\n\n" +  get_diagnostic_str(request))
     end
   end
 

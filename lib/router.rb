@@ -29,18 +29,19 @@ class Router
     @total_counter +=1
     case request['Path']
     when '/' then @debug_controller.debug(client, request)
-    when '/hello' then @hello_controller.hello(client)
-    when '/datetime' then @date_controller.datetime(client)
-    when '/shutdown' then @shutdown_controller.shutdown(client, @total_counter)
+    when '/hello' then @hello_controller.hello(client, request)
+    when '/datetime' then @date_controller.datetime(client,request)
+    when '/shutdown' then @shutdown_controller.shutdown(client, @total_counter, request)
     when /^\/word_search*/ then @word_search_controller.word_search(client,request)
-    when '/force_error' then @debug_controller.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
-      #ITERATION 5 easy to add but no worries for right now just raises an exception
+    when '/force_error' then @debug_controller.force_error #blow_up -
+      #NEEDS TO RESPONSE WITH SYSTM ERROR
     when '/start_game' then @game_controller.start_game(client,request)
     when '/game' then @game_controller.game(client, request)
     when '/new_game' then  @game_controller.new_game(client, request)
     else
       puts "Inside Else: %s" % [request['Path']]
-      # puts "Error message unkown path - USE CONSTANTS"
+      # puts "Error message unkown path - "STATUS_NOTFOUND"
+      #If server generators an error -NEEDS TO RESPONSE WITH "STATUS ERROR"
     end
   end
 

@@ -5,7 +5,7 @@ require 'pry'
 class GameController < Controller
   def initialize
     @start = false
-    @computer_answer = @computer_answer
+    @computer_answer = computer_number
     @location = "POST"
     @number_of_guesses = 0
     @player_guess = []
@@ -19,15 +19,14 @@ class GameController < Controller
     verb = request['Verb']
     if verb.upcase == "POST"
       @start = true
-      response_output(client: client, msg: "Good Luck!")
+      response_output(client: client, msg: "Good Luck!\n" "I'm thinking of a number between 1 to 10")
+      guesses
     end
   end
 
-  def game(client, request)
+  def game_in_progress(client, request)
     verb = request['Verb']
-    if verb.upcase == "GET"
-       response_output(client: client, msg: "I'm thinking of a number between 1 to 10")
-
+    if verb.upcase == "POST"
     else
 
     end
@@ -35,7 +34,7 @@ class GameController < Controller
     # compare the computer gues to the user guess.
   end
 
-  def guesses
+  def guesses(client,request)
     @number_of_guesses += 1
     if player_guess < computer_answer
       low_guesses
@@ -46,15 +45,15 @@ class GameController < Controller
     end
   end
 
-  def low_guesses
+  def low_guesses(client, request)
     response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{player_guess} is too low. Try agian")
   end
 
-  def high_guesses
+  def high_guesses(client, request)
     response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{player_guess} is total_counter high. Try again")
   end
 
-  def correct_guess
+  def correct_guess(client, request)
     result = "#{@number_of_guesses} " + (@number_of_guesses > 1 ? "guesses" : "guess")
     response_output(client: client, msg: "You guessed correctly!!\n" "It took you #{result} to get it right")
   end

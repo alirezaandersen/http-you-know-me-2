@@ -37,7 +37,7 @@ class Router
       #ITERATION 5 easy to add but no worries for right now just raises an exception
     when '/start_game' then @game_controller.start_game(client,request)
     when '/game' then @game_controller.game(client, request)
-    when '/new_game' then  @game_controller.new_game
+    when '/new_game' then  @game_controller.new_game(client, request)
     else
       puts "Inside Else: %s" % [request['Path']]
       # puts "Error message unkown path - USE CONSTANTS"

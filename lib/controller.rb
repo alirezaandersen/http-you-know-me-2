@@ -1,4 +1,4 @@
-require_relative 'view_output'
+require_relative 'output_view'
 require 'pry'
 
 class Controller

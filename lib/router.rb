@@ -1,5 +1,5 @@
 require_relative 'controller'
-require_relative 'view_output'
+require_relative 'output_view'
 # require_relative 'game'
 require 'pry'
 
@@ -10,7 +10,7 @@ class Router
   def initialize
     @hello_counter = 0
     @total_counter = 0
-    @view_output = ViewOutput.new
+    @output_view = OutputView.new
   end
 
 
@@ -19,28 +19,28 @@ class Router
     case request['Path']
 
     when '/'
-     @view_output.debug(client, request)
+     @output_view.debug(client, request)
 
     when '/hello'
       @hello_counter+=1
-      @view_output.hello(client,@hello_counter)
+      @output_view.hello(client,@hello_counter)
 
     when '/datetime'
-      @view_output.datetime(client)
+      @output_view.datetime(client)
 
     when '/shutdown'
-      @view_output.shutdown(client, @total_counter)
+      @output_view.shutdown(client, @total_counter)
       client.close
 
     when /^\/word_search*/ #www.http://port/word_search?word=validatingword&word2=validatingword2
 
       puts "Inside /word_search"
       # binding.pry
-      @view_output.word_search(client,request)
+      @output_view.word_search(client,request)
 
     when '/force_error'
       puts "Inside /force_error"
-      view_output.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
+      output_view.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
       #ITERATION 5 easy to add but no worries for right now just raises an exception
 
     when '/start_game'

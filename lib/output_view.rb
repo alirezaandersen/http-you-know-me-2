@@ -4,7 +4,7 @@ require_relative 'router'
 require_relative 'diagnostic'
 
 
-class ViewOutput
+class OutputView
 
   attr_accessor :dio
 
@@ -32,13 +32,13 @@ class ViewOutput
   end
 
   def word_search(client,request)
-    x = request.select {|key, value| ["Path"].include?(key) } # {"Path"=>"/word_search?word=Troll"}
-    a = x.map.with_index { |k,v| k[1] } # ["/word_search?word=Troll"]
-    z = a[0] # "/word_search?word=Troll"
-    f = z.split("?")[1] #"word=troll&word=trollief"
-    n = f.split("&") # ["word=troll", "word=trollief"]
-    word1 = n[0].split("=")[1] # "troll"
-    word2 = n[1].split("=")[1] # "trollief"
+    separate = request.select {|key, value| ["Path"].include?(key) } # {"Path"=>"/word_search?word=Troll"}
+    url_array = separate.map.with_index { |k,v| k[1] } # ["/word_search?word=Troll"]
+    url_string = url_array[0] # "/word_search?word=Troll"
+    first_seperation = url_string.split("?")[1] #"word=troll&word=trollief"
+    multiple_strings = first_seperation.split("&") # ["word=troll", "word=trollief"]
+    word1 = multiple_strings[0].split("=")[1] # "troll"
+    word2 = multiple_strings[1].split("=")[1] # "trollief"
 
     d = valid_words?([word1,word2])
     @controller.response_output(client: client, msg: d )
@@ -46,7 +46,6 @@ class ViewOutput
 
 
   def valid_words?(words)
-    puts "IM HERE FINALLY"
     msg = ""
     words.each do |word|
     if dictionary.include?(word.downcase) == true
@@ -57,14 +56,10 @@ class ViewOutput
  end
  msg
  end
- # require 'pry' ;binding.pry
 
   def dictionary
     File.read('/usr/share/dict/words').split("\n")
  end
-
-
- # valid_words?("troll,trollief")
 
   def force_error(client)
 

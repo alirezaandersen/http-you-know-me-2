@@ -1,36 +1,22 @@
-# require_relative 'game_controller'
-#
-# class GameView
-#
-#   #include GameController
-#
-#
-#   def initialize
-#     @counter = 0
-#     @computer_guessed = []
-#   end
-#
-#   def randomizer
-#     @computer_guessed.rand(1..10)
-#   end
-#
-#   def start_game(client,request) #refactor for post only.
-#     response_output(client: client, msg: "Good Luck! Get Ready to Play!")
-#      run_game(client,request)
-#     # reset #method
-#   end
-#
-#   def run_game(client,request)
-#     binding.pry
-#     if ['Verb'] == 'GET'.upcase
-#       puts "I made it here"
-#       # play_game
-#     elsif['Verb'] == 'POST'.upcase
-#       puts "LUCKY"
-#     else
-#       puts "this sucks!!!"
-#       # game
-#     end
-#   end
-#
-# end
+require_relative 'game_controller'
+require 'pry'
+
+
+class GameView
+
+  def response_output(params)
+    client = params[:client]
+    msg = params[:msg]
+
+    response = "<pre>" +  msg + "</pre>"
+    time = Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
+    output = "<html><head></head><body>#{response}</body></html>"
+    headers = ["http/1.1 200 ok",
+      "date: #{time}",
+      "server: ruby",
+      "content-type: text/html; charset=iso-8859-1",
+      "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+      client.puts headers
+      client.puts output
+  end
+end

@@ -1,11 +1,11 @@
 # require_relative 'controller'
-require_relative 'output_view'
-require_relative 'date_view'
-require_relative 'debug_view'
-require_relative 'game_view'
-require_relative 'hello_view'
-require_relative 'shutdown_view'
-require_relative 'word_search_view'
+# require_relative 'output_controller'
+require_relative 'date_controller'
+require_relative 'debug_controller'
+require_relative 'game_controller'
+require_relative 'hello_controller'
+require_relative 'shutdown_controller'
+require_relative 'word_search_controller'
 require_relative 'diagnostic'
 require 'pry'
 
@@ -14,54 +14,30 @@ class Router
   # include ResponseCodes
 
   def initialize
-    @hello_counter = 0
     @total_counter = 0
-    # @output_view = OutputView.new
-    @date_view = DateView.new
-    @debug_view = DebugView.new
-    @hello_view = HelloView.new
-    @game_view = GameView.new
-    @shutdown_view = ShutdownView.new
-    @word_search_view = WordSearchView.new
+    # @output_view = OutputController.new
+    @date_controller = DateController.new
+    @debug_controller = DebugController.new
+    @hello_controller = HelloController.new
+    @game_controller = GameController.new
+    @shutdown_controller = ShutdownController.new
+    @word_search_controller = WordSearchController.new
   end
 
 
   def route(client,request)
     @total_counter +=1
     case request['Path']
-
-    when '/'
-     @debug_view.debug(client, request)
-
-    when '/hello'
-      @hello_counter+=1
-      @hello_view.hello(client,@hello_counter)
-
-    when '/datetime'
-      @date_view.datetime(client)
-
-    when '/shutdown'
-      @shutdown_view.shutdown(client, @total_counter)
-      client.close
-
-    when /^\/word_search*/
-      @word_search_view.word_search(client,request)
-
-    when '/force_error'
-      puts "Inside /force_error"
-      @debug_view.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
+    when '/' then @debug_controller.debug(client, request)
+    when '/hello' then @hello_controller.hello(client)
+    when '/datetime' then @date_controller.datetime(client)
+    when '/shutdown' then @shutdown_controller.shutdown(client, @total_counter)
+    when /^\/word_search*/ then @word_search_controller.word_search(client,request)
+    when '/force_error' then @debug_controller.force_error #blow_up - runs a bunch of error codes but doesn't shutdown server
       #ITERATION 5 easy to add but no worries for right now just raises an exception
-
-    when '/start_game'
-      puts "Inside /start_game"
-      @game_view.start_game(client)
-
-    when '/game'
-      @game_view.game
-
-    when '/new_game'
-      @game_view.new_game
-
+    when '/start_game' then @game_controller.start_game(client,request)
+    when '/game' then @game_controller.game(client, request)
+    when '/new_game' then  @game_controller.new_game
     else
       puts "Inside Else: %s" % [request['Path']]
       # puts "Error message unkown path - USE CONSTANTS"

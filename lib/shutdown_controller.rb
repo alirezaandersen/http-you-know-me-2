@@ -1,8 +1,13 @@
-require_relative 'shutdown_view'
+#require_relative 'shutdown_view'
+require_relative 'controller'
 require 'pry'
 
-module ShutdownController
-
+class ShutdownController < Controller
+  def shutdown(client, total_counter)
+    response_output(client: client, msg: "Total Request: #{total_counter}")
+    exit
+  end
+=begin
   def response_output(params)
     client = params[:client]
     msg = params[:msg]
@@ -19,7 +24,8 @@ module ShutdownController
       client.puts output
 
       # puts ["Wrote this response:", headers, output].join("\n")
-      
+
       # puts "\nResponse complete, exiting."
     end
+=end
 end

@@ -1,8 +1,16 @@
-require_relative 'hello_view'
+#require_relative 'hello_view'
+require_relative 'controller'
 require 'pry'
 
-module HelloController
-
+class HelloController < Controller
+  def initialize
+    @counter = 0
+  end
+  def hello(client)
+    @counter += 1
+    response_output(client: client, msg: "Hello World #{@counter}")
+  end
+=begin
   def response_output(params)
     client = params[:client]
     msg = params[:msg]
@@ -19,7 +27,8 @@ module HelloController
       client.puts output
 
       # puts ["Wrote this response:", headers, output].join("\n")
-      
+
       # puts "\nResponse complete, exiting."
     end
+=end
 end

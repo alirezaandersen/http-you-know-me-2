@@ -1,4 +1,3 @@
-#require_relative 'hello_view'
 require_relative 'controller'
 require 'pry'
 

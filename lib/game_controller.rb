@@ -11,7 +11,6 @@ class GameController < Controller
   def initialize
     @start = false
     @computer_answer = computer_number
-    @location = "POST"
     @number_of_guesses = 0
   end
 
@@ -22,12 +21,15 @@ class GameController < Controller
   def start_game(client, request)
     verb = request['Verb']
     if verb.upcase == "POST"
-      @start = true
-      response_output(client: client, msg: "Good Luck!\n" "I'm thinking of a number between 1 to 10")
-
-      #NEEDS TO RESPONSE WITH A 301 DIRECT IF NO GAME IS IN PROGRESS
+      if @start == true #start game that already exists
+        response_output(client: client, msg: "There is already a game in progress\n\n" + get_diagnostic_str(request), code: STATUS_FORB)
+      else  #start game that doesn't exist
+        @start = true
+        response_output(client: client, msg: "Good Luck!\n" "I'm thinking of a number between 1 to 10\n\n" + get_diagnostic_str(request), code: STATUS_REDIRECT)
+      end
     else
-      #if game is in progress # NEEDS TO RESPONSE WITH STATUS_FORB
+      game(client,request)
+
     end
   end
 
@@ -41,23 +43,24 @@ class GameController < Controller
 
   def game(client,request)
     if @start == false
-      response_output(client: client, msg: "Please start game first by going to /start_game", code: STATUS_FORB  )
+      response_output(client: client, msg: "Please start game first by going to /start_game\n\n" + get_diagnostic_str(request), code: STATUS_REDIRECT)
     else
       player_guess(client,request)
     end
 
   end
 
-  def game_in_progress(client, request)
-    verb = request['Verb']
-    if verb.upcase == "POST"
-    else
-      puts STATUS_FORB, "Error Message"
-
-    end
+  # def game_in_progress(client, request)
+  #   @start = true
+  #   verb = request['Verb']
+  #   if verb.upcase == "POST"
+  #   else
+  #     puts STATUS_FORB, "Error Message"
+  #
+  #   end
 
     # compare the computer gues to the user guess.
-  end
+  # end
 
   def guesses(client,request,guess)
     if guess < @computer_answer
@@ -70,16 +73,16 @@ class GameController < Controller
   end
 
   def low_guesses(client, request, guess)
-    response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{guess} is too low. Try agian")
+    response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{guess} is too low. Try agian\n\n" + get_diagnostic_str(request))
   end
 
   def high_guesses(client, request, guess)
-    response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{guess} is total_counter high. Try again")
+    response_output(client: client, msg: "That was guess number #{@number_of_guesses}\n" "Your #{guess} is too high. Try again\n\n" + get_diagnostic_str(request))
   end
 
   def correct_guess(client, request)
     result = "#{@number_of_guesses} " + (@number_of_guesses > 1 ? "guesses" : "guess")
-    response_output(client: client, msg: "You guessed the number #{@computer_answer} correctly!!\n" "It took you #{result} to get it right")
+    response_output(client: client, msg: "You guessed the number #{@computer_answer} correctly!!\n" "It took you #{result} to get it right\n\n" + get_diagnostic_str(request))
   end
 
 

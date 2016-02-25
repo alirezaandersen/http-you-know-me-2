@@ -11,7 +11,7 @@ class Controller
     client = params[:client]
     msg = params[:msg]
     response_code = params[:code] || STATUS_OK
-    
+
     response = "<pre>" +  msg + "</pre>"
     time = Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
     output = "<html><head></head><body>#{response}</body></html>"
@@ -22,13 +22,13 @@ class Controller
       "content-length: #{output.length}\r\n\r\n"].join("\r\n")
       client.puts headers
       client.puts output
-
       # puts ["Wrote this response:", headers, output].join("\n")
-      client.close
+      # client.close
       # puts "\nResponse complete, exiting."
   end
 
-  def get_diagnostic_str(request)
-    request.collect{ |k,v| "#{k}: #{v}" }.join("\n")
-  end
+    def get_diagnostic_str(request)
+      request.collect{ |k,v| "#{k}: #{v}" }.join("\n")
+    end
+
 end

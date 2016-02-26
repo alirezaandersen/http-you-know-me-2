@@ -1,5 +1,5 @@
 require 'socket'
-require_relative 'router'
+require './lib/router'
 
 class WebServer
 

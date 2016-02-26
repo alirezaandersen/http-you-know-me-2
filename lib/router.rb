@@ -1,13 +1,15 @@
-require_relative 'date_controller'
-require_relative 'debug_controller'
-require_relative 'game_controller'
-require_relative 'hello_controller'
-require_relative 'shutdown_controller'
-require_relative 'word_search_controller'
-require_relative 'diagnostic'
+require './lib/date_controller'
+require './lib/debug_controller'
+require './lib/game_controller'
+require './lib/hello_controller'
+require './lib/shutdown_controller'
+require './lib/word_search_controller'
+require './lib/diagnostic'
 require 'pry'
 
 class Router
+
+
 
   def initialize
     @total_counter = 0
@@ -31,7 +33,6 @@ class Router
     when '/force_error' then @debug_controller.force_error(client,request)
     when '/start_game' then @game_controller.start_game(client,request)
     when '/game' then @game_controller.game(client, request)
-    when '/new_game' then  @game_controller.new_game(client, request)
     else @debug_controller.not_found(client, request)
 
     end

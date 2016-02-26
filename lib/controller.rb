@@ -1,31 +1,31 @@
 require 'pry'
-require_relative 'diagnostic'
-require_relative 'response_code'
+require './lib/diagnostic'
+require './lib/response_code'
 
 
-class Controller
+module Controller
   include ResponseCodes
 
   def response_output(params)
 
     client = params[:client]
-    msg = params[:msg]
+    msg = params[:msg] || nil
+    location = params[:location] || nil
     response_code = params[:code] || STATUS_OK
 
-    response = "<pre>" +  msg + "</pre>"
+    response = msg.nil? ? "" : "<pre>" +  msg + "</pre>"
     time = Time.now.strftime('%I:%M %p on %A, %B %e, %Y')
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 #{response_code}",
       "date: #{time}",
       "server: ruby",
       "content-type: text/html; charset=iso-8859-1",
-      "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-      client.puts headers
+      "content-length: #{output.length}\r\n\r\n"]
+    headers.insert(1,"Loction: #{location}") unless location.nil?
+      client.puts headers.join("\r\n")
       client.puts output
-      # puts ["Wrote this response:", headers, output].join("\n")
-      # client.close
-      # puts "\nResponse complete, exiting."
   end
+
 
     def get_diagnostic_str(request)
       request.collect{ |k,v| "#{k}: #{v}" }.join("\n")

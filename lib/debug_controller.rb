@@ -1,9 +1,10 @@
-#require_relative 'debug_view'
-require_relative 'controller'
-require_relative 'response_code'
+require './lib/controller'
+require './lib/response_code'
 require 'pry'
 
-class DebugController < Controller
+class DebugController
+
+  include Controller
   include ResponseCodes
 
   def debug(client, request)

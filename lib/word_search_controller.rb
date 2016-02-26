@@ -1,9 +1,10 @@
-require_relative 'controller'
+require './lib/controller'
 require 'uri'
 require 'pry'
 
-class WordSearchController < Controller
+class WordSearchController
 
+  include Controller
 
   def word_search(client,request)
     if request.nil? or !request['Path'].include?('?')

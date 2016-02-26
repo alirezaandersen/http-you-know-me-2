@@ -6,8 +6,7 @@ require './lib/response_code'
 module Controller
   include ResponseCodes
 
-  def response_output(params)
-
+  def response_output(params)    
     client = params[:client]
     msg = params[:msg] || nil
     location = params[:location] || nil
@@ -21,14 +20,14 @@ module Controller
       "server: ruby",
       "content-type: text/html; charset=iso-8859-1",
       "content-length: #{output.length}\r\n\r\n"]
-    headers.insert(1,"Loction: #{location}") unless location.nil?
+      headers.insert(1,"Location: #{location}") unless location.nil?
       client.puts headers.join("\r\n")
       client.puts output
   end
 
 
-    def get_diagnostic_str(request)
-      request.collect{ |k,v| "#{k}: #{v}" }.join("\n")
-    end
+  def get_diagnostic_str(request)
+    request.collect{ |k,v| "#{k}: #{v}" }.join("\n")
+  end
 
 end

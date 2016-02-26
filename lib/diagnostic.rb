@@ -1,5 +1,3 @@
-# require_relative 'output_view'
-# require './lib/router
 require 'pry'
 
 

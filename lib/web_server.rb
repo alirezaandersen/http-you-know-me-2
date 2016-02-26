@@ -20,6 +20,3 @@ class WebServer
   end
 
 end
-
-server = WebServer.new
-server.loop_server

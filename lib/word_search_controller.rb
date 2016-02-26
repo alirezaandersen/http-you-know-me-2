@@ -17,18 +17,6 @@ class WordSearchController
     end
   end
 
-  def word_search2(client,request)
-    separate = request.select {|key, value| ["Path"].include?(key) } # {"Path"=>"/word_search?word=Troll"}
-    url_array = separate.map.with_index { |k,v| k[1] } # ["/word_search?word=Troll"]
-    url_string = url_array[0] # "/word_search?word=Troll"
-    first_seperation = url_string.split("?")[1] #"word=troll&word=trollief"
-    multiple_strings = first_seperation.split("&") # ["word=troll", "word=trollief"]
-    word1 = multiple_strings[0].split("=")[1] # "troll"
-    word2 = multiple_strings[1].split("=")[1] # "trollief"
-    d = valid_words?([word1,word2])
-    response_output(client: client, msg: d )
-  end
-
   def valid_words?(words)
     msg = ""
     words.each do |word|

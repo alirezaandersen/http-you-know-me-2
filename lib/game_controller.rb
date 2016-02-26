@@ -29,16 +29,20 @@ class GameController
 
   def start_game(client, request)
     verb = request['Verb']
+    if @start == true #start game that already exists
+      response_output(client: client, msg: "There is already a game in progress\n\n" + get_diagnostic_str(request), code: STATUS_FORB)
+    end
     if verb.upcase == "POST"
-      if @start == true #start game that already exists
-        response_output(client: client, msg: "There is already a game in progress\n\n" + get_diagnostic_str(request), code: STATUS_FORB)
-      else  #start game that doesn't exist
-        @start = true
-        response_output(client: client, msg: "Good Luck!\n" "I'm thinking of a number between 1 to 10\n\n" + get_diagnostic_str(request), code: STATUS_REDIRECT)
+        if @start == false  #start game that doesn't exist
+          @start = true
+          response_output(client: client, msg: "Good Luck!\n" "I'm thinking of a number between 1 to 10\n\n" + get_diagnostic_str(request), code: STATUS_OK)
+        end
+    else #GET Request
+      if @start == false
+        response_output(client: client, msg: "Please use POST request on /start_game to start a new game" + get_diagnostic_str(request), code: STATUS_UNAUTH)
+      else
+
       end
-      game(client,request)
-    else
-        #unauthorized
     end
   end
 
@@ -55,34 +59,38 @@ class GameController
   end
 
   def game(client,request)
-    if request['Verb'].upcase == 'POST'
-      if @start == false
-        response_output(client: client, msg: "Please start game first by going to /start_game\n\n" + get_diagnostic_str(request), code: STATUS_REDIRECT)
-      else
-        #get guess and process a redirect
-        #player_guess(client,request)
-        @guess = ge
-        response_output(client: client, code: STATUS_MOVED, location: 'http://127.0.0.1:9292/game')
-      end
-    else #GET Request
-
-      #output:
-=begin
-a) how many guesses have been taken.
-b) if a guess has been made, it tells what the guess was and whether it was too high, too low, or correc
-=end
-
+    if @start == false
+      response_output(client: client, msg: "Please start game first by going to /start_game\n\n" + get_diagnostic_str(request), code: STATUS_REDIRECT)
+    else
+      if request['Verb'].upcase == 'POST'
+        guess = get_guess(client,request)
+        if( guess < 0)
+          response_output(client: client, msg: "Invalid guess", code: STATUS_MOVED, location: 'http://127.0.0.1:9292/game')
+        else
+          @guess = guess
+          @number_of_guesses += 1
+          response_output(client: client, code: STATUS_MOVED, location: 'http://127.0.0.1:9292/game')
+        end
+      else #GET Request
+        guesses(client,request,@guess)
       end
     end
+  end
 
   def guesses(client,request,guess)
-    if guess < @computer_answer
+    if guess < 0
+      invalid_guess(client,request,guess)
+    elsif guess < @computer_answer
       low_guesses(client,request,guess)
     elsif guess > @computer_answer
       high_guesses(client,request,guess)
     else
       correct_guess(client,request)
     end
+  end
+
+  def invalid_guesses(client, request, guess)
+    response_output(client: client, msg: "Your guess of #{guess} is invalid. Try agian\n\n" + get_diagnostic_str(request), status: STATUS_OK)
   end
 
   def low_guesses(client, request, guess)
@@ -95,7 +103,7 @@ b) if a guess has been made, it tells what the guess was and whether it was too 
 
   def correct_guess(client, request)
     result = "#{@number_of_guesses} " + (@number_of_guesses > 1 ? "guesses" : "guess")
-    output_str = "You guessed the number #{@computer_answer} correctly!!\n" "It took you #{result} to get it right\n\n"
+    output_str = "Congratulations. You guessed the number #{@computer_answer} correctly!!\n" "It took you #{result} to get it right\n\n"
     reset
     response_output(client: client, msg: output_str + get_diagnostic_str(request), code: STATUS_OK)
   end
